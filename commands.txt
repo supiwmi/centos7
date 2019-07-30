@@ -1,0 +1,4 @@
+# mount /dev/cdrom /mnt 		  → สั่ง mount cdrom drive ไปที่ path /mnt ของเครื่อง
+# mkdir /rhel8			          → สร้าง directory ไว้เพื่อเก็บไฟล์จากทั้งหมดจาก cdrom
+# rsync -arv /mnt/ /rhel8 		→ สั่ง rsync แบบ recursive และต้องใส่ / ต่อจาก /mnt
+                                ไม่เช่นนั้นจะได้แค่ mount directory จะไม่ได้ contents ในนี้
