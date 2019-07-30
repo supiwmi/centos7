@@ -1,4 +1,91 @@
-# mount /dev/cdrom /mnt 		  → สั่ง mount cdrom drive ไปที่ path /mnt ของเครื่อง
-# mkdir /rhel8			          → สร้าง directory ไว้เพื่อเก็บไฟล์จากทั้งหมดจาก cdrom
-# rsync -arv /mnt/ /rhel8 		→ สั่ง rsync แบบ recursive และต้องใส่ / ต่อจาก /mnt
-                                ไม่เช่นนั้นจะได้แค่ mount directory จะไม่ได้ contents ในนี้
+
+##################################################################################################################
+#   Apache Web Server
+#   Step 1 – Disable SELinux
+#   Let’s first edit the configuration file and change “SELINUX=enforcing” to “SELINUX=permissive”
+##################################################################################################################
+
+vi /etc/sysconfig/selinux
+setenforce
+
+yum install -y httpd vim rsync elinks policycoreutils-python net-tools wget curl 
+systemctl status httpd
+systemctl start httpd
+chkconfig httpd on
+vim /etc/httpd/conf/httpd.conf
+
+================= insert DVD/ISO file and then copy to /localrepo ===================
+mount /dev/cdrom /mnt
+mkdir /localrepo
+rsync -arv /mnt/ /localrepo 
+
+=================  configure firewalld to allow port 80/443  =================
+firewall-cmd --zone=public --permanent --add-service=http
+firewall-cmd --zone=public --permanent --add-service=https
+firewall-cmd --reload
+
+=================Then remove the Apache welcome page. =================
+rm -rf /etc/httpd/conf.d/welcome.conf
+
+=================Check for Apache configuration syntax=================
+httpd -t
+
+=================Now restart Apache=================
+systemctl restart httpd
+
+=================Use Server IPS to browse Repository.=================
+
+
+##################################################################################################################
+#   Firewall
+##################################################################################################################
+Step 1: Install Web Server
+yum install epel-release
+yum install nginx
+firewall-cmd --zone=public --permanent --add-service=http
+firewall-cmd --zone=public --permanent --add-service=https
+firewall-cmd --reload
+systemctl start nginx
+systemctl enable nginx
+systemctl status nginx
+
+yum -y install httpd policycoreutils-python net-tools wget curl rsync elinks 
+
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
+firewall-cmd --permanent --add-port=8090/tcp
+semanage port -a -t http_port_t -p tcp 8090
+
+
+http://SERVER_DOMAIN_NAME_OR_IP
+Step 2: Create Yum Local Repository
+yum install createrepo  yum-utils
+mkdir -p /var/www/html/repos/{base,centosplus,extras,updates}
+
+
+##################################################################################################################
+#   Java Install
+##################################################################################################################
+
+yum -y install java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64 wget
+java -version
+
+cd /usr/local
+wget http://www-us.apache.org/dist/tomcat/tomcat-9/v9.0.14/bin/apache-tomcat-9.0.14.tar.gz
+tar -xvf apache-tomcat-9.0.14.tar.gz
+mv apache-tomcat-9.0.14 tomcat9
+
+echo "export CATALINA_HOME="/usr/local/tomcat9"" >> ~/.bashrc
+source ~/.bashrc
+cd /usr/local/tomcat9/bin
+./startup.sh
+
+firewall-cmd --zone=public --permanent --add-port=8080/tcp
+firewall-cmd --reload
+
+Test your Apache Tomcat 
+http://Your-IP-Address:8080 OR http://Your-Domain.com:8080 
+
+
+
+
