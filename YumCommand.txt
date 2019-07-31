@@ -1,0 +1,2 @@
+This command will install about 250 packages more on your system
+yum groupinstall -y "Base" "Development Libraries" "Development Tools"
