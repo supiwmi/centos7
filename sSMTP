@@ -1,0 +1,30 @@
+Link==> https://myaccount.google.com/lesssecureapps?pli=1
+
+How to install and configure SSMTP in Cent OS 7
+
+ yum install epel-release
+ -or-
+ wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+ 
+ yum install ssmtp
+ 
+ SSMTP Configuration: Now we will edit /etc/ssmtp/ssmtp.conf SSMTP configuration file and add the following lines:
+ 
+#root=postmaster
+#mailhub=mail.yourdomain.com:587
+#Hostname=serverhostname
+#FromLineOverride=YES
+#AuthUser=username@yourdomain.com
+#AuthPass=Password
+#UseSTARTTLS=YES
+	root=<your-email-address>
+	mailhub=smtp.gmail.com:587
+	AuthUser=<your-account's-user-name>
+	AuthPass=<your-account's-password>
+
+Setup SSMTP as Default MTA: Rename the /use/sbin/sendmail script and create a symbolic link for SSMTP to sendmail with authentication:
+
+# mv /usr/sbin/sendmail /usr/sbin/sendmail.ORIG
+# ln -s /usr/sbin/ssmtp /usr/sbin/sendmail
+
+Done!!! SSMTP installation and configuration is done.
