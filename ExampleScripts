@@ -30,3 +30,7 @@ vim /root/bin/mybackups.sh
  LF=$LFPATH/$(date+%Y%m%d:%T)_logfile.log
  rsync --delete --log-file=$LF -avzq $SOURCE $DEST
  (echo "SUBJECT:$SBJT"; echo; cat $LF ) | sendmail -f $FROM -tEMAIL
+
+
+crontab -e 
+  30  20  * * * /root/bin/mybackup.sh
