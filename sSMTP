@@ -25,12 +25,17 @@ Setup SSMTP as Default MTA: Rename the /use/sbin/sendmail script and create a sy
 
 # mv /usr/sbin/sendmail /usr/sbin/sendmail.ORIG
 # ln -s /usr/sbin/ssmtp /usr/sbin/sendmail
+# sendmail -V
 
-
-[root@mail ~]# firewall-cmd --permanent --add-service=smtp
-[root@mail ~]# firewall-cmd --permanent --add-port=587/tcp
-[root@mail ~]# firewall-cmd --permanent --add-port=465/tcp
-[root@mail ~]# firewall-cmd --reload
+    firewall-cmd --permanent --add-service=smtp
+    firewall-cmd --permanent --add-port=587/tcp
+    firewall-cmd --permanent --add-port=465/tcp
+    firewall-cmd --permanent --add-port=110/tcp
+    firewall-cmd --permanent --add-service=pop3s
+    firewall-cmd --permanent --add-port=143/tcp
+    firewall-cmd --permanent --add-service=imaps
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --reload
 
 
 Done!!! SSMTP installation and configuration is done.
