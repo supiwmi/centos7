@@ -1,7 +1,8 @@
 1. Monitoring Disk Usage
 =============================================================
 vim /etc/cron.daily/monitor_disk_space.sh
-  #!/bin/bash
+ 
+ #!/bin/bash
   EMAIL="root@localhost"
   THRESHOLD=70
   df -H |grep -vE '^Filesystem|tmpfs|cdrom' |awk '{ print $5 " " $6 }' | while read output;
@@ -12,3 +13,20 @@ vim /etc/cron.daily/monitor_disk_space.sh
         (echo "Subject: Alert: Free space low on 'hostname -s', $usep %used on $partition"; echo) | sendmail -t $EMAIL
      fi
   done
+
+2. Bakup with cron and rsync to remote location 
+==============================================================
+mkdir /backups
+mkdir /root/bin
+vim /root/bin/mybackups.sh
+
+ #!/bin/bash
+ SBJT="cront backup report for 'hostname -s' from $(date+%Y%m%d:%T)"
+ FROM=root@domain
+ EMAIL=supiwmi@yahoo.com
+ SOURCE=/root
+ DEST=/backups
+ LFPATH=/tmp
+ LF=$LFPATH/$(date+%Y%m%d:%T)_logfile.log
+ rsync --delete --log-file=$LF -avzq $SOURCE $DEST
+ (echo "SUBJECT:$SBJT"; echo; cat $LF ) | sendmail -f $FROM -tEMAIL
