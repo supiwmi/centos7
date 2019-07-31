@@ -1,0 +1,14 @@
+1. Monitoring Disk Usage
+=============================================================
+vim /etc/cron.daily/monitor_disk_space.sh
+  #!/bin/bash
+  EMAIL="root@localhost"
+  THRESHOLD=70
+  df -H |grep -vE '^Filesystem|tmpfs|cdrom' |awk '{ print $5 " " $6 }' | while read output;
+  do
+     usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1
+     partition=$(echo $output | awk '{ print $2}' )
+     if [ $usep -ge $THRESHOLD ]; then
+        (echo "Subject: Alert: Free space low on 'hostname -s', $usep %used on $partition"; echo) | sendmail -t $EMAIL
+     fi
+  done
