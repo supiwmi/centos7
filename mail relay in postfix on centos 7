@@ -1,0 +1,44 @@
+=============================
+Step #1: Installed pacakges
+=============================
+ping 8.8.8.8
+yum install -y postfix cyrus-imapd cyrus-sasl cyrus-sasl-plain mailx
+=============================
+Step #2 : Configure postfix 
+=============================
+vim /etc/postfix/main.cf
+myhostname=relay.example.com
+relayhost=[smtp.gmail.com]:587
+smtp_use_tls=yes
+smtp_sasl_auth_enable=yes
+smtp_sasl_password_map=hash:/etc/postfix/sasl_passwd
+smtp_tls_CAfile=/etc/ssl/certs/ca-bundle.crt
+smtp_sasl_security_options=noanonymous
+smtp_sasl_tls_security_options=noanonymous
+
+save and exit
+=============================
+Step #3: Configure SASL credential
+=============================
+vim /etc/postfix/sasl_passwd
+[smtp.gmail.com]:587 Gmail ID:Password
+
+save and exit
+
+chown root:postfix /etc/postfix/sasl_passwd
+chmod 640 /etc/postfix/sasl_passwd
+postmap  /etc/postfix/sasl_passwd
+
+setenforce 0
+
+systemctl start postfix
+systemctl enable postfix
+systemctl status postfix
+
+tail -f /var/log/maillog
+=============================
+Step #4: Testing...........
+=============================
+ echo "Subject: Hello" | sendmail supiwmi@gmail.com
+ mail -a msg.txt -s "Backup File" supiwmi@gmail.com < msg.txt
+ mailq
