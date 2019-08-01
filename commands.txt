@@ -53,9 +53,11 @@ yum -y install httpd policycoreutils-python net-tools wget curl rsync elinks
 
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
+firewall-cmd --permanent --add-port=8080/tcp
 firewall-cmd --permanent --add-port=8090/tcp
+semanage port -a -t http_port_t -p tcp 8080
 semanage port -a -t http_port_t -p tcp 8090
-
+firewall-cmd --reload
 
 http://SERVER_DOMAIN_NAME_OR_IP
 Step 2: Create Yum Local Repository
