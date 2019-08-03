@@ -9,7 +9,7 @@ ssh-keygen -t rsa -b 4096
 ##################################################################################################################
 
 vi /etc/sysconfig/selinux
-setenforce
+setenforce 0
 
 yum install -y httpd vim rsync elinks policycoreutils-python net-tools wget curl 
 systemctl status httpd
@@ -60,6 +60,7 @@ firewall-cmd --permanent --add-port=8080/tcp
 firewall-cmd --permanent --add-port=8090/tcp
 semanage port -a -t http_port_t -p tcp 8080
 semanage port -a -t http_port_t -p tcp 8090
+semanage port -a -t http_port_t -p tcp 3000
 firewall-cmd --reload
 
 http://SERVER_DOMAIN_NAME_OR_IP
