@@ -2,6 +2,24 @@ Jenkins
 http://104.215.183.106:8080/
 admin/TP1T@dminปี
 
+HOWTO: Reset Jenkins Admin Password 
+ 1. If your jenkins is running on the Linux OS, edit the below file.
+
+    vi /var/lib/jenkins/config.xml file.
+
+
+2. Search for the word <useSecurity>true</useSecurity>
+and change the word true to false. 
+
+3. Restart the Jenkins server.
+
+    service jenkins restart
+
+
+4. Now go to Jenkins portal and set the password again.
+
+5. Enable the security again by changing settings to <useSecurity>true</useSecurity> and restart the Jenkins again.
+
 Gitlab
 https://52.230.65.95
 root/TP1T@dminปี
