@@ -1,0 +1,22 @@
+Jenkins
+http://104.215.183.106:8080/
+admin/TP1T@dminปี
+
+Gitlab
+https://52.230.65.95
+root/TP1T@dminปี
+
+
+Reset your GitLab root password from a terminal
+Start the console with this command:
+
+ gitlab-rails console production
+ u = User.where(id: 1).first
+ u.password = 'secret_pass'
+ u.password_confirmation = 'secret_pass'
+ u.save!
+
+The ( ! ) symbol is very important. 
+Otherwise your changes are not pushed to the database. 
+Now exit the console and try to login with your new password. 
+It should work now.
