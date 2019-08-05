@@ -1,6 +1,24 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+From the OS X Terminal command line, type:
+
+ssh-keygen -R [your domain name or IP address]
+This will clear the issue on the client side hosts file.
+
+The next time you type to use SSH to connect to the host, you should then see something like:
+
+The authenticity of host '[your host information]' can't be established.
+RSA key fingerprint is 06:ea:f1:f8:db:75:5c:0c:af:15:d7:99:2d:ef:08:2a.
+Are you sure you want to continue connecting (yes/no)?
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+:%S/old_word/new_word/g
+
 sftp://root@<ipaddress>
 
 ssh-keygen -t rsa -b 4096
+
 
 ##################################################################################################################
 #   Apache Web Server
