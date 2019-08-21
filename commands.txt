@@ -70,13 +70,18 @@ systemctl start nginx
 systemctl enable nginx
 systemctl status nginx
 
-yum -y install httpd policycoreutils-python net-tools wget curl rsync elinks 
+yum -y install httpd policycoreutils-python net-tools wget curl rsync elinks nmap
 
 firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --permanent --add-port=8080/tcp
+firewall-cmd --permanent --add-port=8081/tcp
 firewall-cmd --permanent --add-port=8090/tcp
+firewall-cmd --permanent --add-port=3000/tcp
+firewall-cmd --reload
+
 semanage port -a -t http_port_t -p tcp 8080
+semanage port -a -t http_port_t -p tcp 8081
 semanage port -a -t http_port_t -p tcp 8090
 semanage port -a -t http_port_t -p tcp 3000
 firewall-cmd --reload
