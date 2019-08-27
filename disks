@@ -1,0 +1,14 @@
+1.List new Hard Disk with full details
+# lsblk -f
+
+2.Format a new disk
+# fdisk -l /dev/sdb
+
+3.Create files system type with a label
+# mkfs.ext4 -L OPSBK /dev/sdb
+# lsblk -f
+
+4.Update  /etc/fstab
+# echo '/dev/sdb /home2 ext4 defaults 0 0' >> /etc/fstab
+# mount -a	
+# df -h /home2
