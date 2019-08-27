@@ -1,4 +1,4 @@
-echo 'export PS1="\u@\h \w]\$ "' >> ~/.bash_profile or .bashrc
+echo 'export PS1="[\u@\h \w]\$ "' >> ~/.bash_profile or .bashrc
 source ~/.bash_profile or  source .bashrc
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
