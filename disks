@@ -8,7 +8,12 @@
 # mkfs.ext4 -L OPSBK /dev/sdb
 # lsblk -f
 
-4.Update  /etc/fstab
+4.Create mountpoint 
+mkdir /home2
+mount /dev/sdb /home2
+df -h
+
+5.Update  /etc/fstab
 # echo '/dev/sdb /home2 ext4 defaults 0 0' >> /etc/fstab
 # mount -a	
 # df -h /home2
